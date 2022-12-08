@@ -1,7 +1,10 @@
+import 'package:final_parcel_track/components/package_delivery_tracking.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
+import 'components/TimelineCustom.dart';
+import 'components/TimelineTimelines.dart';
 import 'components/Tracking.dart';
 import 'components/search.dart';
 
@@ -61,35 +64,41 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: const [
-          Search(),
-          Tracking(boxWidth: 400,
-              boxHeight: 120,
-              internalPadding: 15,
-              borderRadius: 17,
-          ),
+        children:  [
+          // Search(),
+          // Tracking(
+          //     boxWidth: 400,
+          //     boxHeight: 120,
+          //     internalPadding: 15,
+          //     borderRadius: 17,
+          //     textLower: "Order tracking information",
+          //     textUpper: "Tracking ID : 21192787773",
+          // ),
           SizedBox(
             height: 20,
           ),
-          Timeline(),
+          // Timeline(), // with package : timeline tile
+          // TimelineCustom(), // with no package
+          TimelineTimelines(), // with package : timelines
+          // PackageDeliveryTrackingPage(),
           SizedBox(
             height: 20,
           ),
-          Title(titleText: "Client Information"),
-          SizedBox(
-            height: 0,
-          ),
-          ClientInfoTab(),
-          SizedBox(
-            height: 20,
-          ),
-          Title(titleText: "Merchant Information"),
-          MerchantInfoTab(),
-          SizedBox(
-            height: 20,
-          ),
-          Title(titleText: "Assigned to"),
-          AssignedToTab(),
+          // Title(titleText: "Client Information"),
+          // SizedBox(
+          //   height: 0,
+          // ),
+          // ClientInfoTab(),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // Title(titleText: "Merchant Information"),
+          // MerchantInfoTab(),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // Title(titleText: "Assigned to"),
+          // AssignedToTab(),
         ],
       )
       // This trailing comma makes auto-formatting nicer for build methods.
@@ -97,6 +106,207 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+
+
+
+class Timeline extends StatelessWidget {
+  const Timeline({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xfff4f5f5),
+        borderRadius: BorderRadius.circular(17),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Tracking updates",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Color(0xFF0B4461),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight: "Delivery Complete",
+              isFirst: true,
+              isLast: false,
+              // iconImage: "assets/images/delivery.png",
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight:
+              "Delivery Run Attempt 1, Rider: Md. Momin Mia (01273777873)",
+              isFirst: false,
+              isLast: false,
+              // iconImage: "assets/images/delivery.png",
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight: "Parcel transfer to your nearest hub (Khilgaon Hub)",
+              isFirst: false,
+              isLast: false,
+              // iconImage: "assets/images/delivery.png",
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight: "Parcel transfer to head office",
+              isFirst: false,
+              isLast: false,
+              // iconImage: "assets/images/delivery.png",
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight: "Mirpur Hub Received the parcel",
+              isFirst: false,
+              isLast: false,
+              // iconImage: "assets/images/delivery.png",
+            ),
+            TimeLineTileWidget(
+              textLeft: "15 Aug 2022",
+              textLeftBottom: "12:45am",
+              textRight: "Pickup complete",
+              isFirst: false,
+              isLast: true,
+              // iconImage: "assets/images/delivery.png",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TimeLineTileWidget extends StatelessWidget {
+  const TimeLineTileWidget({
+    Key? key,
+    required this.textLeft,
+    required this.textLeftBottom,
+    required this.textRight,
+    required this.isFirst,
+    required this.isLast,
+    // required this.iconImage,
+  }) : super(key: key);
+
+  final String textLeft;
+  final String textLeftBottom;
+  final String textRight;
+  final bool isFirst;
+  final bool isLast;
+  // final String iconImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return TimelineTile(
+      indicatorStyle: IndicatorStyle(
+        // color: Colors.black26,
+          height: 30,
+          width: 30,
+          indicatorXY: 0.01,
+          indicator: CircleAvatar(
+            backgroundColor: Color(0xFF0B4461),
+            // child: Image.asset(iconImage),
+          )),
+      isFirst: isFirst,
+      isLast: isLast,
+      alignment: TimelineAlign.manual,
+      lineXY: 0.4,
+      startChild: Container(
+        height: 100,
+        width: 150,
+        child: Column(
+          children: [
+            Text(
+              textLeft,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              textLeftBottom,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+      endChild: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+        child: Container(
+          height: 100,
+          width: 150,
+          child: Column(
+            children: [
+              Text(
+                textRight,
+                style:
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Title extends StatelessWidget {
+  const Title({
+    Key? key,
+    required this.titleText,
+  }) : super(key: key);
+
+  final String titleText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: const Color(0xFF0B4461),
+        ),
+        color: const Color(0xFF0B4461),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            titleText,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 240, 240, 240),
+              backgroundColor: Color(0xFF0B4461),
+              // decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class AssignedToTab extends StatelessWidget {
   const AssignedToTab({Key? key}) : super(key: key);
@@ -527,202 +737,5 @@ class ClientInfoTab extends StatelessWidget {
   }
 }
 
-class Title extends StatelessWidget {
-  const Title({
-    Key? key,
-    required this.titleText,
-  }) : super(key: key);
 
-  final String titleText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFF0B4461),
-        ),
-        color: const Color(0xFF0B4461),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            titleText,
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 240, 240, 240),
-              backgroundColor: Color(0xFF0B4461),
-              // decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Timeline extends StatelessWidget {
-  const Timeline({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xfff4f5f5),
-        borderRadius: BorderRadius.circular(17),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Padding(
-              padding: EdgeInsets.all(14.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Tracking updates",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Color(0xFF0B4461),
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight: "Delivery Complete",
-              isFirst: true,
-              isLast: false,
-              // iconImage: "assets/images/delivery.png",
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight:
-              "Delivery Run Attempt 1, Rider: Md. Momin Mia (01273777873)",
-              isFirst: false,
-              isLast: false,
-              // iconImage: "assets/images/delivery.png",
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight: "Parcel transfer to your nearest hub (Khilgaon Hub)",
-              isFirst: false,
-              isLast: false,
-              // iconImage: "assets/images/delivery.png",
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight: "Parcel transfer to head office",
-              isFirst: false,
-              isLast: false,
-              // iconImage: "assets/images/delivery.png",
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight: "Mirpur Hub Received the parcel",
-              isFirst: false,
-              isLast: false,
-              // iconImage: "assets/images/delivery.png",
-            ),
-            TimeLineTileWidget(
-              textLeft: "15 Aug 2022",
-              textLeftBottom: "12:45am",
-              textRight: "Pickup complete",
-              isFirst: false,
-              isLast: true,
-              // iconImage: "assets/images/delivery.png",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TimeLineTileWidget extends StatelessWidget {
-  const TimeLineTileWidget({
-    Key? key,
-    required this.textLeft,
-    required this.textLeftBottom,
-    required this.textRight,
-    required this.isFirst,
-    required this.isLast,
-    // required this.iconImage,
-  }) : super(key: key);
-
-  final String textLeft;
-  final String textLeftBottom;
-  final String textRight;
-  final bool isFirst;
-  final bool isLast;
-  // final String iconImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return TimelineTile(
-      indicatorStyle: IndicatorStyle(
-        // color: Colors.black26,
-          height: 30,
-          width: 30,
-          indicatorXY: 0.01,
-          indicator: CircleAvatar(
-            backgroundColor: Color(0xFF0B4461),
-            // child: Image.asset(iconImage),
-          )),
-      isFirst: isFirst,
-      isLast: isLast,
-      alignment: TimelineAlign.manual,
-      lineXY: 0.4,
-      startChild: Container(
-        height: 100,
-        width: 150,
-        child: Column(
-          children: [
-            Text(
-              textLeft,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              textLeftBottom,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-      endChild: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-        child: Container(
-          height: 100,
-          width: 150,
-          child: Column(
-            children: [
-              Text(
-                textRight,
-                style:
-                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 

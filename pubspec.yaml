@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   timeline_tile: ^2.0.0
   responsive_framework: ^0.2.0
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:final_parcel_track/utils/GlobalFunctions.dart';
 import 'package:flutter/material.dart';
 
 class Tracking extends StatelessWidget {
@@ -7,24 +8,16 @@ class Tracking extends StatelessWidget {
     required this.boxHeight,
     required this.internalPadding,
     required this.borderRadius,
+    required this.textUpper,
+    required this.textLower,
   }) : super(key: key);
 
   final double boxWidth;
   final double boxHeight;
   final double internalPadding;
   final double borderRadius;
-
-
-  // Calculating aspect ratio based on width of our Figma design
-  static double globalSize(double size, double width){
-    // size is the size of the Widget in Figma file
-    // width is the screen width of the device
-    const int figBaseWidth = 360;
-
-    double ratio = size/figBaseWidth;
-    return ratio * width;
-  }
-
+  final String textUpper;
+  final String textLower;
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +38,14 @@ class Tracking extends StatelessWidget {
         padding: EdgeInsets.all(padding),
         child: Column(
           children: [
+            SizedBox(height: padding),
             Text(
-              "Order tracking information  /",
+              textUpper,
               style: TextStyle(fontSize: (25 *padding/25)  ),
             ),
             SizedBox(height: padding * 2),
             Text(
-              "Tracking ID : 21188289288",
+              textLower,
               style: TextStyle(
                 fontSize: (25 *padding/25),
                 color: Colors.redAccent,
